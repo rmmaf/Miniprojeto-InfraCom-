@@ -38,18 +38,21 @@ public class Cliente extends Thread {
 			//enviarTamanhoeNome.close();//tamanho do arquivo enviado (será utilizado para o status da barra de download no servidor)
 
 			FileInputStream leitura = new FileInputStream(file);//sistema de leitura do arquivo
-			OutputStream  escrita = soquete.getOutputStream();//escreve o que ta no buffer para o caminho gerado pelo soquete + ip
+			//OutputStream  escrita = soquete.getOutputStream();//escreve o que ta no buffer para o caminho gerado pelo soquete + ip
 			//System.out.println("Rodrigo guei");
 			int cont;
 			while((cont = leitura.read(buffer)) > 0){
 				//le o que ta no arquivo e joga pro buffer; essa leitura retorna o numero de bytes lidos, caso o valor seja zero, quer dizer que leu 0 bytes(fim do arquivo)
-				escrita.write(buffer, 0, cont);
+				enviarTamanhoeNome.write(buffer, 0, cont);
 				valorBarra = valorBarra + cont;
 				barra.setValue(valorBarra);//feito isso, eh atualizada a barra de progresso e le novamente o arquivo e joga pro buffer o que foi lido
 			}
 
 			//barra.setValue(0);
-			leitura.close(); escrita.close(); soquete.close();//coisas fechadasa
+			leitura.close(); 
+			//escrita.close(); 
+			soquete.close();//coisas fechadasa
+			enviarTamanhoeNome.close();
 		} catch (ConnectException e){
 		}
 		catch (IOException e) {

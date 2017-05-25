@@ -42,11 +42,11 @@ public class Servidor extends Thread {
 			String nome = le.readLine();
 			System.out.println(nome);
 
-			InputStream lerDados = soquete.getInputStream();//lê o que tá sendo recebido
+			//InputStream lerDados = soquete.getInputStream();//lê o que tá sendo recebido
 			FileOutputStream armazenar = new FileOutputStream(nome);
 			System.out.println("comecando");
 			int cont, tamanho2 = tamanho, barra = 0;
-			while((cont = lerDados.read(buffer)) > 0){
+			while((cont = receberTamanho.read(buffer)) > 0){
 				armazenar.write(buffer, 0, cont);
 				barra = barra + cont;
 				progressDown.setValue(barra);
@@ -57,7 +57,9 @@ public class Servidor extends Thread {
 			}
 			estima.setText("Concluído");
 			//progressDown.setValue(0);
-			lerDados.close(); armazenar.close(); soquete.close(); tmpsoquete.close();
+			//lerDados.close(); 
+			armazenar.close(); soquete.close(); tmpsoquete.close();
+			receberTamanho.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
