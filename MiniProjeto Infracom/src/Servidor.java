@@ -45,32 +45,14 @@ public class Servidor extends Thread {
 			InputStream lerDados = soquete.getInputStream();//lê o que tá sendo recebido
 			FileOutputStream armazenar = new FileOutputStream(nome);
 			System.out.println("comecando");
-
-			double tempo1, ultimaVelocidade, velocidadeMedia = 0;//variaveispara o tempo de download estimado
-			int cont, contagem = 0;
-			while ((cont = lerDados.read(buffer)) > 0){//mesma logica do cliente, so que para a leitura agora
-				tempo1 = System.nanoTime();
-				
+			int cont, tamanho2 = tamanho, barra = 0;
+			while((cont = lerDados.read(buffer)) > 0){
 				armazenar.write(buffer, 0, cont);
-				//tempo 
-				ultimaVelocidade = (System.nanoTime() - tempo1)/1000000000;//tempo para a chegada de 4 Kbytes em segundos: 1 nanosegundo é igual a 10^-9 segundos
-				ultimaVelocidade = 4/ultimaVelocidade;//Kbyte por segundo
-				if(contagem == 0){//o primeiro valor da valociadadeMedia é o primeiro de ultimaVelocidade
-					velocidadeMedia = ultimaVelocidade;
-				}
-				else
-					velocidadeMedia = 0.125*ultimaVelocidade + (1 - 0.125)*velocidadeMedia;
-				tempofaltando = ((tamanho/1000)/(velocidadeMedia));// t = s/v
-				if(contagem >= 1250 && contagem%1250 == 0){//a cada MB (se cada ciclo recebe atualiza o valor do tempo a cada segundo)
-					estima.setText(String.valueOf(tempofaltando));
-				}
-				tamanho = tamanho - cont;//o que resta para enviar
-				valorBarra = valorBarra + cont;
-				progressDown.setValue(valorBarra);
-				contagem++;
+				barra = barra + cont;
+				progressDown.setValue(barra);
 			}
 			File file = new File(nome);
-			if(file.length() < tamanho){
+			if(file.length() < tamanho2){
 				file.delete();
 			}
 			estima.setText("Concluído");

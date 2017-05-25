@@ -40,10 +40,11 @@ public class Cliente extends Thread {
 			FileInputStream leitura = new FileInputStream(file);//sistema de leitura do arquivo
 			OutputStream  escrita = soquete.getOutputStream();//escreve o que ta no buffer para o caminho gerado pelo soquete + ip
 			//System.out.println("Rodrigo guei");
-			for(int dadosLidos = leitura.read(buffer); dadosLidos > 0; dadosLidos = leitura.read(buffer)){
+			int cont;
+			while((cont = leitura.read(buffer)) > 0){
 				//le o que ta no arquivo e joga pro buffer; essa leitura retorna o numero de bytes lidos, caso o valor seja zero, quer dizer que leu 0 bytes(fim do arquivo)
-				escrita.write(buffer, 0, dadosLidos);
-				valorBarra = valorBarra + dadosLidos;
+				escrita.write(buffer, 0, cont);
+				valorBarra = valorBarra + cont;
 				barra.setValue(valorBarra);//feito isso, eh atualizada a barra de progresso e le novamente o arquivo e joga pro buffer o que foi lido
 			}
 
