@@ -2,13 +2,11 @@ import java.net.*;
 import java.io.*;
 import javax.swing.JProgressBar;
 public class Cliente extends Thread {
-	String endereco; //Endereco IP para conexao
-	String caminho;
-	int porta; //socket, a aplicacao funcionara no socket 2020
-	 //buffer de 1MB
-	File file;//arquivo
-	JProgressBar barra;
-	String nome;
+	private String endereco; //Endereco IP para conexao
+	private String caminho;
+	private int porta; //socket, a aplicacao funcionara no socket 2020
+	private JProgressBar barra;
+	private String nome;
 
 	public Cliente (String adress, String caminho, String nome, int port, JProgressBar bar){
 		porta = port;
@@ -33,13 +31,9 @@ public class Cliente extends Thread {
 			barra.setMaximum(tamanho);//valor maximo da barra definido
 			DataOutputStream enviarTamanhoeNome = new DataOutputStream(soquete.getOutputStream());
 			enviarTamanhoeNome.writeInt(tamanho);
-			nome = nome + '\n';
-			enviarTamanhoeNome.write(nome.getBytes());
-			//enviarTamanhoeNome.close();//tamanho do arquivo enviado (será utilizado para o status da barra de download no servidor)
+			enviarTamanhoeNome.writeUTF(nome);
 
 			FileInputStream leitura = new FileInputStream(file);//sistema de leitura do arquivo
-			//OutputStream  escrita = soquete.getOutputStream();//escreve o que ta no buffer para o caminho gerado pelo soquete + ip
-			//System.out.println("Rodrigo guei");
 			int cont;
 			while((cont = leitura.read(buffer)) > 0){
 				//le o que ta no arquivo e joga pro buffer; essa leitura retorna o numero de bytes lidos, caso o valor seja zero, quer dizer que leu 0 bytes(fim do arquivo)
@@ -47,12 +41,9 @@ public class Cliente extends Thread {
 				valorBarra = valorBarra + cont;
 				barra.setValue(valorBarra);//feito isso, eh atualizada a barra de progresso e le novamente o arquivo e joga pro buffer o que foi lido
 			}
-
-			//barra.setValue(0);
-			leitura.close(); 
-			//escrita.close(); 
-			soquete.close();//coisas fechadasa
+			leitura.close();
 			enviarTamanhoeNome.close();
+			soquete.close();
 		} catch (ConnectException e){
 		}
 		catch (IOException e) {
