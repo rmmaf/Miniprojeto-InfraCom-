@@ -102,7 +102,7 @@ public class GUI extends JFrame {
 		
 		porta = new JTextField();
 		porta.setColumns(10);
-		porta.setBounds(99, 16, 177, 20);
+		porta.setBounds(160, 10, 177, 20);
 		contentPane.add(porta);
 		
 		nomeUp = new JTextField();

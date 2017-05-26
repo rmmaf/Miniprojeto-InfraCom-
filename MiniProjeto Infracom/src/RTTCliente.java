@@ -25,23 +25,24 @@ public class RTTCliente extends Thread {
 			boolean primeiro = true;
 			double valor;
 			while(true){
-				long tempoAtual = System.nanoTime();
+				long tempoAtual = System.currentTimeMillis();
 				clientSocket.send(sendPacket); 
 				byte[] receiveData = new byte[1];
 				DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
 				clientSocket.receive(receivePacket);
-				valor =  ((System.nanoTime() - tempoAtual) / 1000000);
+				valor =  ((System.currentTimeMillis() - tempoAtual));
 				if(primeiro){//primeiro valor do estRtt
 					estRtt = valor;
 					primeiro = false;//so iguala uma vez
 				}
 				estRtt = (0.8755)*estRtt + 0.125*valor;
 				retorna = String.valueOf(estRtt);
-				Rtt.setText(retorna);
+				Rtt.setText(retorna + " ms");
 				Thread.sleep(500);
 			}
 		}catch (IOException | InterruptedException e) {
 			e.printStackTrace();
+			
 		}
 	}
 
