@@ -245,7 +245,7 @@ public class GUI extends JFrame {
 			chooserDown.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 			chooserDown.setAcceptAllFileFilterUsed(false);
 			if (chooserDown.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-				localdoDown.setText(String.valueOf(chooserDown.getCurrentDirectory()));
+				localdoDown.setText(chooserDown.getSelectedFile().getAbsolutePath());
 			} else {
 				localdoDown.setText("Nada selecionado");
 			}
