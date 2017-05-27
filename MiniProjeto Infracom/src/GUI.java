@@ -35,10 +35,12 @@ public class GUI extends JFrame {
 	JTextPane tempoEstimado;
 	JFileChooser chooser;
 	JTextPane arquivo;
-	File file;
+	private File file;
 	private final Action escolher = new SwingAction_2();
 	JTextPane downName;
-
+	private final Action escolheUp = new SwingAction_3();
+	private JTextPane localdoDown;
+	private JFileChooser chooserDown;
 	/**
 	 * Launch the application.
 	 */
@@ -60,7 +62,7 @@ public class GUI extends JFrame {
 	 */
 	public GUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 724, 465);
+		setBounds(100, 100, 724, 496);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.LIGHT_GRAY);
 		contentPane.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
@@ -78,7 +80,7 @@ public class GUI extends JFrame {
 		contentPane.add(tempoEstimado);
 
 		arquivo = new JTextPane();
-		arquivo.setBounds(43, 361, 512, 20);
+		arquivo.setBounds(43, 392, 512, 20);
 		contentPane.add(arquivo);
 
 		progressDown = new JProgressBar();
@@ -88,17 +90,17 @@ public class GUI extends JFrame {
 
 		progressUp = new JProgressBar();
 		progressUp.setForeground(Color.GREEN);
-		progressUp.setBounds(43, 299, 512, 24);
+		progressUp.setBounds(43, 328, 512, 24);
 		contentPane.add(progressUp);
 
 		JButton btnEnviar = new JButton("Enviar");
 		btnEnviar.setAction(botaoEnviar);
-		btnEnviar.setBounds(43, 392, 608, 23);
+		btnEnviar.setBounds(43, 423, 608, 23);
 		contentPane.add(btnEnviar);
 
 		JButton btnReceber = new JButton("Receber");
 		btnReceber.setAction(botaoReber);
-		btnReceber.setBounds(562, 177, 89, 23);
+		btnReceber.setBounds(43, 263, 608, 23);
 		contentPane.add(btnReceber);
 
 		JButton btnEscolherArquivo = new JButton("Escolher");
@@ -107,7 +109,7 @@ public class GUI extends JFrame {
 			}
 		});
 		btnEscolherArquivo.setAction(escolher);
-		btnEscolherArquivo.setBounds(565, 358, 89, 23);
+		btnEscolherArquivo.setBounds(562, 389, 89, 23);
 		contentPane.add(btnEscolherArquivo);
 
 		ipDestino = new JTextField();
@@ -124,11 +126,6 @@ public class GUI extends JFrame {
 		lblRtt.setFont(new Font("Comic Sans MS", Font.BOLD | Font.ITALIC, 15));
 		lblRtt.setBounds(484, 13, 137, 22);
 		contentPane.add(lblRtt);
-
-		JLabel lblInformao = new JLabel("O arquivo estar\u00E1 salvo na pasta do projeto no workspace selecionado");
-		lblInformao.setFont(new Font("Comic Sans MS", Font.PLAIN, 16));
-		lblInformao.setBounds(43, 173, 629, 31);
-		contentPane.add(lblInformao);
 
 		JLabel lblTempoRestanteEstimado = new JLabel("Tempo Restante Estimado (segundos)");
 		lblTempoRestanteEstimado.setFont(new Font("Comic Sans MS", Font.BOLD | Font.ITALIC, 15));
@@ -147,23 +144,37 @@ public class GUI extends JFrame {
 
 		JLabel lblProgressoDoUpload = new JLabel("Progresso do Upload");
 		lblProgressoDoUpload.setFont(new Font("Comic Sans MS", Font.BOLD | Font.ITALIC, 15));
-		lblProgressoDoUpload.setBounds(43, 274, 177, 14);
+		lblProgressoDoUpload.setBounds(43, 303, 177, 14);
 		contentPane.add(lblProgressoDoUpload);
 
 		JLabel lblArquivo = new JLabel("Arquivo\r\n para upload:\r\n");
 		lblArquivo.setFont(new Font("Comic Sans MS", Font.BOLD | Font.ITALIC, 15));
-		lblArquivo.setBounds(45, 334, 228, 24);
+		lblArquivo.setBounds(46, 357, 228, 24);
 		contentPane.add(lblArquivo);
 
 		JLabel lblPorta = new JLabel("Porta:");
 		lblPorta.setFont(new Font("Comic Sans MS", Font.BOLD | Font.ITALIC, 15));
 		lblPorta.setBounds(43, 11, 148, 14);
 		contentPane.add(lblPorta);
-		
+
 		downName = new JTextPane();
 		downName.setBackground(Color.LIGHT_GRAY);
-		downName.setBounds(43, 215, 629, 31);
+		downName.setBounds(43, 173, 629, 31);
 		contentPane.add(downName);
+
+		localdoDown = new JTextPane();
+		localdoDown.setBounds(43, 232, 512, 20);
+		contentPane.add(localdoDown);
+
+		JButton localUp = new JButton("Escolher");
+		localUp.setAction(escolheUp);
+		localUp.setBounds(562, 229, 89, 23);
+		contentPane.add(localUp);
+
+		JLabel lblLocalDeDownload = new JLabel("Local de download:");
+		lblLocalDeDownload.setFont(new Font("Comic Sans MS", Font.BOLD | Font.ITALIC, 15));
+		lblLocalDeDownload.setBounds(43, 197, 228, 24);
+		contentPane.add(lblLocalDeDownload);
 
 	}
 
@@ -180,7 +191,7 @@ public class GUI extends JFrame {
 			int port = Integer.parseInt(porta.getText());//numero da porta passado para int
 
 			new Thread(new RTTServidor()).start();
-			new Thread(new Servidor(progressDown, port, tempoEstimado, downName)).start();
+			new Thread(new Servidor(progressDown, port, tempoEstimado, downName, localdoDown.getText())).start();
 
 		}
 	}
@@ -215,6 +226,28 @@ public class GUI extends JFrame {
 			if(value == JFileChooser.APPROVE_OPTION){
 				file = chooser.getSelectedFile();
 				arquivo.setText(file.getName());
+			}
+		}
+	}
+	private class SwingAction_3 extends AbstractAction {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+		public SwingAction_3() {
+			putValue(NAME, "Escolher");
+			putValue(SHORT_DESCRIPTION, "Some short description");
+		}
+		public void actionPerformed(ActionEvent e) {
+			chooserDown = new JFileChooser();
+			chooserDown.setCurrentDirectory(new java.io.File("."));
+			chooserDown.setDialogTitle("choosertitle");
+			chooserDown.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+			chooserDown.setAcceptAllFileFilterUsed(false);
+			if (chooserDown.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+				localdoDown.setText(String.valueOf(chooserDown.getCurrentDirectory()));
+			} else {
+				localdoDown.setText("Nada selecionado");
 			}
 		}
 	}

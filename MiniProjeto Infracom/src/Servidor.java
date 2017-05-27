@@ -13,12 +13,14 @@ public class Servidor extends Thread {
 	private JProgressBar progressDown;
 	private JTextPane estima;
 	private JTextPane nomeDown;
-
-	public Servidor(JProgressBar progresso, int port, JTextPane estima, JTextPane nomeDown) {
+	private String local;
+	
+	public Servidor(JProgressBar progresso, int port, JTextPane estima, JTextPane nomeDown, String local) {
 		porta = port;
 		progressDown = progresso;
 		this.estima = estima;
 		this.nomeDown = nomeDown;
+		this.local = local;
 	}
 
 	public void run(){//use a mesma logica do cliente, so que para receber agora
@@ -35,7 +37,7 @@ public class Servidor extends Thread {
 			String nome = receberTamanhoeNome.readUTF();
 			nomeDown.setText("Baixando: " + nome);
 			//InputStream lerDados = soquete.getInputStream();//lê o que tá sendo recebido
-			FileOutputStream armazenar = new FileOutputStream(nome);
+			FileOutputStream armazenar = new FileOutputStream(local + "\\" + nome);
 			System.out.println("comecando");
 			int cont, tamanho2 = tamanho, barra = 0, pacotes = 0;
 			long tempoInicial = System.currentTimeMillis(), tempoAtual;
