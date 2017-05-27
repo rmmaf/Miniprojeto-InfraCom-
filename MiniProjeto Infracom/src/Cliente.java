@@ -3,17 +3,14 @@ import java.io.*;
 import javax.swing.JProgressBar;
 public class Cliente extends Thread {
 	private String endereco; //Endereco IP para conexao
-	private String caminho;
 	private int porta; //socket, a aplicacao funcionara no socket 2020
 	private JProgressBar barra;
-	private String nome;
-
-	public Cliente (String adress, String caminho, String nome, int port, JProgressBar bar){
+	private File file;
+	public Cliente (File file, String endereco, int port, JProgressBar bar){
 		porta = port;
-		endereco = adress;
+		this.file = file;
 		barra = bar;
-		this.caminho = caminho;
-		this.nome = nome;
+		this.endereco = endereco;
 	}
 
 
@@ -23,15 +20,13 @@ public class Cliente extends Thread {
 			int valorBarra = 0;//variavel que define o valor atual da barra de progresso de upload
 			System.out.println("Conectando");
 			Socket soquete = new Socket(endereco, porta);
-			
-			File file = new File(caminho + nome);//pegar arquivo com o caminho dado
 			System.out.println("Enviando tamanho");
 			
 			int tamanho = (int) file.length();//pegar tamanho do arquivo
 			barra.setMaximum(tamanho);//valor maximo da barra definido
 			DataOutputStream enviarTamanhoeNome = new DataOutputStream(soquete.getOutputStream());
 			enviarTamanhoeNome.writeInt(tamanho);
-			enviarTamanhoeNome.writeUTF(nome);
+			enviarTamanhoeNome.writeUTF(file.getName());
 
 			FileInputStream leitura = new FileInputStream(file);//sistema de leitura do arquivo
 			int cont;
