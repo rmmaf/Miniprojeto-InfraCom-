@@ -5,6 +5,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 
 public class RTTServidor extends Thread{
+	
 	public RTTServidor(){
 
 	}

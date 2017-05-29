@@ -7,8 +7,9 @@ import java.net.InetAddress;
 import javax.swing.JTextPane;
 
 public class RTTCliente extends Thread {
-	String endereco;
-	JTextPane Rtt;
+	private String endereco;
+	private JTextPane Rtt;
+	
 	public RTTCliente(String endereco, JTextPane rtt){
 		this.endereco = endereco;
 		Rtt = rtt;
@@ -18,6 +19,7 @@ public class RTTCliente extends Thread {
 		double estRtt = 0;
 		String retorna;
 		try {
+			@SuppressWarnings("resource")
 			DatagramSocket clientSocket = new DatagramSocket();
 			InetAddress IPServer = InetAddress.getByName(endereco);
 			byte[] sendData;

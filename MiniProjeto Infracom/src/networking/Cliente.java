@@ -4,10 +4,12 @@ import java.net.*;
 import java.io.*;
 import javax.swing.JProgressBar;
 public class Cliente extends Thread {
+	
 	private String endereco; //Endereco IP para conexao
 	private int porta; //socket, a aplicacao funcionara no socket 2020
 	private JProgressBar barra;
 	private File file;
+	
 	public Cliente (File file, String endereco, int port, JProgressBar bar){
 		porta = port;
 		this.file = file;

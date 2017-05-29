@@ -11,6 +11,7 @@ import javax.swing.JProgressBar;
 import javax.swing.JTextPane;
 
 public class Servidor extends Thread {
+	
 	private int porta;
 	private JProgressBar progressDown;
 	private JTextPane estima;
