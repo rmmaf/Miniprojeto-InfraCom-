@@ -3,6 +3,12 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.SoftBevelBorder;
+
+import networking.Cliente;
+import networking.Servidor;
+import rtt.RTTCliente;
+import rtt.RTTServidor;
+
 import javax.swing.border.BevelBorder;
 import javax.swing.JTextPane;
 import java.awt.Color;
@@ -14,7 +20,6 @@ import javax.swing.JButton;
 import javax.swing.AbstractAction;
 import java.awt.event.ActionEvent;
 import java.io.File;
-
 import javax.swing.Action;
 import javax.swing.JFileChooser;
 import java.awt.event.ActionListener;
@@ -62,7 +67,7 @@ public class GUI extends JFrame {
 	 */
 	public GUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 724, 496);
+		setBounds(100, 100, 724, 498);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.LIGHT_GRAY);
 		contentPane.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
@@ -94,16 +99,19 @@ public class GUI extends JFrame {
 		contentPane.add(progressUp);
 
 		JButton btnEnviar = new JButton("Enviar");
+		btnEnviar.setFont(new Font("Comic Sans MS", Font.BOLD | Font.ITALIC, 13));
 		btnEnviar.setAction(botaoEnviar);
 		btnEnviar.setBounds(43, 423, 608, 23);
 		contentPane.add(btnEnviar);
 
 		JButton btnReceber = new JButton("Receber");
+		btnReceber.setFont(new Font("Comic Sans MS", Font.BOLD | Font.ITALIC, 13));
 		btnReceber.setAction(botaoReber);
 		btnReceber.setBounds(43, 263, 608, 23);
 		contentPane.add(btnReceber);
 
 		JButton btnEscolherArquivo = new JButton("Escolher");
+		btnEscolherArquivo.setFont(new Font("Comic Sans MS", Font.BOLD | Font.ITALIC, 13));
 		btnEscolherArquivo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
@@ -167,6 +175,7 @@ public class GUI extends JFrame {
 		contentPane.add(localdoDown);
 
 		JButton localUp = new JButton("Escolher");
+		localUp.setFont(new Font("Comic Sans MS", Font.BOLD | Font.ITALIC, 13));
 		localUp.setAction(escolheUp);
 		localUp.setBounds(562, 229, 89, 23);
 		contentPane.add(localUp);
