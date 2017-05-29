@@ -1,0 +1,16 @@
+Passo a passo para o funcionamento do projeto:
+
+Lado Servidor deve estar ativo antes de o cliente enviar (óbvio), para isso, faça os seguintes passos:
+	1- Digite a porta do servidor (que será a mesma escolhida pelo cliente)
+	2- Escolha o local onde o arquivo será armazenado no botão "Escolher" da parte chamada "Local de Download"
+	3- Clique em "Receber" UMA vez
+
+Depois que o lado Servidor estiver pronto, o cliente pode enviar o arquivo (o nome do arquivo NÃO pode conter espaços, pois dará erro na hora de o FileOutputStream do lado servidor criar o arquivo):
+	1- Digite a porta do cliente (que será a mesma do servidor) na seção "Porta"
+	2- Digite o IP de destino (IP do servidor) na seção "IP de destino"
+	3- Escolha o arquivo para upload clicando em "Escolher" na seção "Arquivo para upload"
+	3- Uma vez escolhido o arquivo clique em "Enviar"
+
+
+Pronto, seguindo esses passos a transferência do arquivo é feita!!!
+
